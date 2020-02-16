@@ -3,15 +3,7 @@ const logIn = () => {
   
     // Capture HTTP requests.
     cy.server();
-    cy.route({
-      method: 'POST',
-      url: '**/api/log_in/**',
-      status: 200,
-      response: {
-        'access': 'ACCESS_TOKEN',
-        'refresh': 'REFRESH_TOKEN'
-      }
-    }).as('logIn');
+    cy.route('POST', '**/api/log_in/**').as('logIn');
   
     // Log into the app.
     cy.visit('/#/log-in');
@@ -22,46 +14,34 @@ const logIn = () => {
 };
 
 describe('Authentication', function () {
+    it('Can sign up.', function () {
+      cy.server();
+      cy.route('POST', '**/api/sign_up/**').as('signUp');
+    
+      cy.visit('/#/sign-up');
+      cy.get('input#username').type('gary.cole@example.com');
+      cy.get('input#firstName').type('Gary');
+      cy.get('input#lastName').type('Cole');
+      cy.get('input#password').type('pAssw0rd', { log: false });
+      cy.get('select#group').select('driver');
+    
+      // Handle file upload
+      cy.fixture('images/photo.jpg').then(photo => {
+        cy.get('input#photo').upload({
+          fileContent: photo,
+          fileName: 'photo.jpg',
+          mimeType: 'application/json'
+        });
+      });
+    
+      cy.get('button').contains('Sign up').click();
+      cy.wait('@signUp');
+      cy.hash().should('eq', '#/log-in');
+    });
+
     it('Can log in.', function () {
       logIn();
       cy.hash().should('eq', '#/');
-    });
-  
-    it('Can sign up.', function () {
-        cy.server();
-        cy.route({
-          method: 'POST',
-          url: '**/api/sign_up/**',
-          status: 201,
-          response: {
-            'id': 1,
-            'username': 'gary.cole@example.com',
-            'first_name': 'Gary',
-            'last_name': 'Cole',
-            'group': 'driver',
-            'photo': '/media/images/photo.jpg'
-          }
-        }).as('signUp');
-      
-        cy.visit('/#/sign-up');
-        cy.get('input#username').type('gary.cole@example.com');
-        cy.get('input#firstName').type('Gary');
-        cy.get('input#lastName').type('Cole');
-        cy.get('input#password').type('pAssw0rd', { log: false });
-        cy.get('select#group').select('driver');
-      
-        // Handle file upload
-        cy.fixture('images/photo.jpg').then(photo => {
-          cy.get('input#photo').upload({
-            fileContent: photo,
-            fileName: 'photo.jpg',
-            mimeType: 'application/json'
-          });
-        });
-      
-        cy.get('button').contains('Sign up').click();
-        cy.wait('@signUp');
-        cy.hash().should('eq', '#/log-in');
     });
   
     it('Cannot visit the login page when logged in.', function () {
@@ -150,11 +130,6 @@ describe('Authentication', function () {
         );
         cy.hash().should('eq', '#/sign-up');
     });
-
-
-
-
-
 
 
 
