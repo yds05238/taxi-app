@@ -16,7 +16,7 @@ function App () {
     return window.localStorage.getItem('taxi.auth') !== null;
   });
 
-  const logIn = async (username, password) => { 
+  const logIn = async (username, password) => {
     const url = '/api/log_in/';
     try {
       const response = await axios.post(url, { username, password });
@@ -24,9 +24,13 @@ function App () {
         'taxi.auth', JSON.stringify(response.data)
       );
       setLoggedIn(true);
+      // new
+      return { response, isError: false };
     }
     catch (error) {
       console.error(error);
+      // new
+      return { response: error, isError: true };
     }
   };
 
