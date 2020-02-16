@@ -28,20 +28,39 @@ describe('Authentication', function () {
     });
   
     it('Can sign up.', function () {
+        cy.server();
+        cy.route({
+          method: 'POST',
+          url: '**/api/sign_up/**',
+          status: 201,
+          response: {
+            'id': 1,
+            'username': 'gary.cole@example.com',
+            'first_name': 'Gary',
+            'last_name': 'Cole',
+            'group': 'driver',
+            'photo': '/media/images/photo.jpg'
+          }
+        }).as('signUp');
+      
         cy.visit('/#/sign-up');
         cy.get('input#username').type('gary.cole@example.com');
         cy.get('input#firstName').type('Gary');
         cy.get('input#lastName').type('Cole');
         cy.get('input#password').type('pAssw0rd', { log: false });
         cy.get('select#group').select('driver');
+      
+        // Handle file upload
         cy.fixture('images/photo.jpg').then(photo => {
-            cy.get('input#photo').upload({
-              fileContent: photo,
-              fileName: 'photo.jpg',
-              mimeType: 'application/json'
-            });
+          cy.get('input#photo').upload({
+            fileContent: photo,
+            fileName: 'photo.jpg',
+            mimeType: 'application/json'
           });
+        });
+      
         cy.get('button').contains('Sign up').click();
+        cy.wait('@signUp');
         cy.hash().should('eq', '#/log-in');
     });
   
