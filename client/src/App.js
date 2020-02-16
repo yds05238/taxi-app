@@ -24,14 +24,17 @@ function App () {
         'taxi.auth', JSON.stringify(response.data)
       );
       setLoggedIn(true);
-      // new
       return { response, isError: false };
     }
     catch (error) {
       console.error(error);
-      // new
       return { response: error, isError: true };
     }
+  };
+
+  const logOut = () => {
+    window.localStorage.removeItem('taxi.auth');
+    setLoggedIn(false);
   };
 
   return (
@@ -43,10 +46,11 @@ function App () {
         <Navbar.Toggle />
         <Navbar.Collapse>
           {
-            isLoggedIn &&
-            <Form inline className='ml-auto'>
-              <Button type='button'>Log out</Button>
-            </Form>
+            isLoggedIn && (
+              <Form inline className='ml-auto'>
+                <Button type='button' onClick={() => logOut()}>Log out</Button>
+              </Form>
+            )
           }
         </Navbar.Collapse>
       </Navbar>
