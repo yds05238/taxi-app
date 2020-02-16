@@ -59,66 +59,101 @@ function SignUp (props) {
               }}
               onSubmit={onSubmit}
             >
-              {({
-                handleChange,
-                handleSubmit,
-                values
-              }) => (
+                {({
+                    errors, 
+                    handleChange,
+                    handleSubmit,
+                    isSubmitting, 
+                    setFieldValue, 
+                    values
+                }) => (
                 <Form noValidate onSubmit={handleSubmit}>
                   <Form.Group controlId='username'>
                     <Form.Label>Username:</Form.Label>
                     <Form.Control
-                      name='username'
-                      onChange={handleChange}
-                      values={values.username}
+                        className={ 'username' in errors ? 'is-invalid' : '' }
+                        name='username'
+                        onChange={handleChange}
+                        values={values.username}
+                        required
                     />
-                  </Form.Group>
-                  <Form.Group controlId='firstName'>
+                    {
+                        'username' in errors &&
+                        <Form.Control.Feedback type='invalid'>{ errors.username }</Form.Control.Feedback>
+                    }
+                    </Form.Group>
+                    <Form.Group controlId='firstName'>
                     <Form.Label>First name:</Form.Label>
                     <Form.Control
-                      name='firstName'
-                      onChange={handleChange}
-                      values={values.firstName}
+                        className={ 'firstName' in errors ? 'is-invalid' : '' }
+                        name='firstName'
+                        onChange={handleChange}
+                        values={values.firstName}
                     />
-                  </Form.Group>
-                  <Form.Group controlId='lastName'>
+                    {
+                        'firstName' in errors &&
+                        <Form.Control.Feedback type='invalid'>{ errors.firstName }</Form.Control.Feedback>
+                    }
+                    </Form.Group>
+                    <Form.Group controlId='lastName'>
                     <Form.Label>Last name:</Form.Label>
                     <Form.Control
-                      name='lastName'
-                      onChange={handleChange}
-                      values={values.lastName}
+                        className={ 'lastName' in errors ? 'is-invalid' : '' }
+                        name='lastName'
+                        onChange={handleChange}
+                        values={values.lastName}
                     />
-                  </Form.Group>
-                  <Form.Group controlId='password'>
+                    {
+                        'lastName' in errors &&
+                        <Form.Control.Feedback type='invalid'>{ errors.lastName }</Form.Control.Feedback>
+                    }
+                    </Form.Group>
+                    <Form.Group controlId='password'>
                     <Form.Label>Password:</Form.Label>
                     <Form.Control
-                      name='password'
-                      onChange={handleChange}
-                      type='password'
-                      value={values.password}
+                        className={ 'password' in errors ? 'is-invalid' : '' }
+                        name='password'
+                        onChange={handleChange}
+                        type='password'
+                        value={values.password}
                     />
-                  </Form.Group>
-                  <Form.Group controlId='group'>
+                    {
+                        'password' in errors &&
+                        <Form.Control.Feedback type='invalid'>{ errors.password }</Form.Control.Feedback>
+                    }
+                    </Form.Group>
+                    <Form.Group controlId='group'>
                     <Form.Label>Group:</Form.Label>
                     <Form.Control
-                      as='select'
-                      name='group'
-                      onChange={handleChange}
-                      value={values.group}
+                        as='select'
+                        className={ 'group' in errors ? 'is-invalid' : '' }
+                        name='group'
+                        onChange={handleChange}
+                        value={values.group}
                     >
-                      <option value='rider'>Rider</option>
-                      <option value='driver'>Driver</option>
+                        <option value='rider'>Rider</option>
+                        <option value='driver'>Driver</option>
                     </Form.Control>
-                  </Form.Group>
-                  <Form.Group controlId='photo'>
+                    {
+                        'group' in errors &&
+                        <Form.Control.Feedback type='invalid'>{ errors.group }</Form.Control.Feedback>
+                    }
+                    </Form.Group>
+                    <Form.Group controlId='photo'>
                     <Form.Label>Photo:</Form.Label>
                     <Form.Control
-                      name='photo'
-                      onChange={handleChange}
-                      type='file'
-                      value={values.photo}
+                        className={ 'photo' in errors ? 'is-invalid' : '' }
+                        name='photo'
+                        onChange={event => {
+                        setFieldValue('photo', event.currentTarget.files[0]);
+                        }}
+                        type='file'
                     />
-                  </Form.Group>
+                    {
+                        'photo' in errors &&
+                        <Form.Control.Feedback type='invalid'>{ errors.photo }</Form.Control.Feedback>
+                    }
+                    </Form.Group>
                   <Button block type='submit' variant='primary'>Sign up</Button>
                 </Form>
               )}
