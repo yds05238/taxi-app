@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import 'bootswatch/dist/lumen/bootstrap.css'; 
-import { HashRouter } from 'react-router-dom'; // new
+import 'bootswatch/dist/lumen/bootstrap.css'; // new
+import { HashRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render( // changed
+ReactDOM.render(
   <HashRouter>
     <App />
   </HashRouter>,
