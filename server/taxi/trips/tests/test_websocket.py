@@ -42,11 +42,14 @@ class TestWebSocket:
 
     async def test_can_send_and_receive_messages(self, settings):
         settings.CHANNEL_LAYERS = TEST_CHANNEL_LAYERS
-        communicator = WebsocketCommunicator(
-            application=application,
-            path='/taxi/'
+        _, access = await create_user(
+            'test.user@example.com', 'pAssw0rd'
         )
-        connected, _ = await communicator.connect()
+        communicator = WebsocketCommunicator(
+            application=application, 
+            path=f'/taxi/?token={access}'
+        )
+        connected, _ = await communicator.connect() 
         message = {
             'type': 'echo.message',
             'data': 'This is a test message.',
@@ -58,11 +61,14 @@ class TestWebSocket:
     
     async def test_can_send_and_receive_broadcast_messages(self, settings):
         settings.CHANNEL_LAYERS = TEST_CHANNEL_LAYERS
-        communicator = WebsocketCommunicator(
-            application=application,
-            path='/taxi/'
+        _, access = await create_user(
+            'test.user@example.com', 'pAssw0rd'
         )
-        connected, _ = await communicator.connect()
+        communicator = WebsocketCommunicator(
+            application=application, 
+            path=f'/taxi/?token={access}'
+        )
+        connected, _ = await communicator.connect() 
         message = {
             'type': 'echo.message',
             'data': 'This is a test message.',
