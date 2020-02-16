@@ -1,8 +1,8 @@
 import React from 'react';
-import { Link, Route, Switch } from 'react-router-dom'; 
+import { Link, Route, Switch } from 'react-router-dom';
 
-import SignUp from './components/SignUp'; 
-import LogIn from './components/LogIn'; 
+import SignUp from './components/SignUp';
+import LogIn from './components/LogIn';
 
 import './App.css';
 
@@ -12,7 +12,7 @@ function App () {
       <Route exact path='/' render={() => (
         <div>
           <h1>Taxi</h1>
-          <Link to='/sign-up'>Sign up</Link>
+          {/* <Link to='/sign-up'>Sign up</Link> */}
           <Link to='/log-in'>Log in</Link>
         </div>
       )} />
