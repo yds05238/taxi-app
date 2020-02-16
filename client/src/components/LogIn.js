@@ -1,22 +1,20 @@
-import React, {useState} from 'react';
-import { Formik } from 'formik'; 
+import React, { useState } from 'react'; // changed
+import { Formik } from 'formik';
 import {
   Breadcrumb, Button, Card, Col, Form, Row
-} from 'react-bootstrap'; 
-import { Link, Redirect } from 'react-router-dom';
+} from 'react-bootstrap';
+import { Link, Redirect } from 'react-router-dom'; // changed
 
 function LogIn (props) {
-  const [isSubmitted, setSubmitted] = useState(false);
+    const [isSubmitted, setSubmitted] = useState(false);
 
-  const onSubmit = (values, actions) => {
-    props.logIn(values.username, values.password);
-    setSubmitted(true);
-  };
+    // new
+    const onSubmit = (values, actions) => setSubmitted(true);
 
-  if (isSubmitted) {
-    return <Redirect to='/' />;
-  }
-
+    // new
+    if (isSubmitted) {
+        return <Redirect to='/' />;
+    }
   return (
     <Row>
       <Col lg={12}>
@@ -27,12 +25,12 @@ function LogIn (props) {
         <Card>
           <Card.Header>Log in</Card.Header>
           <Card.Body>
-            <Formik
-              initialValues={{
+          <Formik
+            initialValues={{
                 username: '',
                 password: ''
-              }}
-              onSubmit={onSubmit}
+            }}
+            onSubmit={onSubmit}
             >
             {({
                 handleChange,
